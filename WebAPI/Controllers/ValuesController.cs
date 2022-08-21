@@ -4,15 +4,20 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Data.Entity;
+using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
     public class ValuesController : ApiController
     {
+        private readonly StevenEntities db = new StevenEntities();
         // GET api/values
-        public IEnumerable<string> Get()
+        // 取出所有使用者清單
+        public IHttpActionResult GetAllUser()
         {
-            return new string[] { "value1", "value2" };
+            List<Users> userList = db.Users.ToList();
+            return Ok(userList);
         }
 
         // GET api/values/5
