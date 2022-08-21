@@ -21,24 +21,39 @@ namespace WebAPI.Controllers
         }
 
         // GET api/values/5
-        public string Get(int id)
+        // 取得使用者資料
+        public IHttpActionResult GetUser(int id)
         {
-            return "value";
+            Users targetUser = db.Users.Find(id);
+            return Ok(targetUser);
         }
 
         // POST api/values
-        public void Post([FromBody] string value)
+        // 新增使用者資料
+        public void AddUser([FromBody] Users user)
         {
+            db.Users.Add(user);
+            db.SaveChanges();
         }
 
         // PUT api/values/5
-        public void Put(int id, [FromBody] string value)
+        public void UpdateUser(int id, [FromBody] Users value)
         {
+            Users targetUser = db.Users.Find(id);
+            targetUser.Name = value.Name;
+            targetUser.Age = value.Age;
+            targetUser.Email = value.Email;
+            // 此方法也可行 但得確保id存在
+            // db.Entry(value).State = EntityState.Modified;
+            db.SaveChanges();
         }
 
         // DELETE api/values/5
         public void Delete(int id)
         {
+            Users targetUser = db.Users.Find(id);
+            db.Users.Remove(targetUser);
+            db.SaveChanges();
         }
     }
 }
